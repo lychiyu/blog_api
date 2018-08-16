@@ -12,7 +12,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.generics import GenericAPIView
 
 from article.models import Article, Image
-from article.rest.serializers import ArticleSerializer, UploadSerializer, ImageSerializer
+from article.rest.serializers import ArticleSerializer, UploadSerializer, ImageSerializer, ArchiveSerializer
 from blog_api.utils import States, QiNiuUtil
 
 
@@ -52,3 +52,8 @@ class ImageApiSet(ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericV
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
     filter_fields = ('type',)
+
+
+class ArchiveList(ListModelMixin, GenericViewSet):
+    serializer_class = ArchiveSerializer
+    queryset = Article.objects.archive()

@@ -28,3 +28,9 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ('id', 'type', 'url')
         read_only_fields = ('id', 'url')
+
+
+class ArchiveSerializer(serializers.Serializer):
+    year = serializers.CharField()
+    month = serializers.CharField()
+    article = ArticleSerializer(many=True)

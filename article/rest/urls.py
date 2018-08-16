@@ -4,7 +4,7 @@
  Created by liuying on 2018/8/16.
 """
 from django.conf.urls import url
-from django.urls import include, path
+from django.urls import include
 from rest_framework.routers import DefaultRouter
 
 from article.rest.apis import ArticleApiSet

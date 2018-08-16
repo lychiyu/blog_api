@@ -3,6 +3,8 @@ from collections import defaultdict
 from django.db import models
 
 # Create your models here.
+from rest_framework.utils import json
+
 from blog_api.utils import States, NamedConst
 
 
@@ -36,7 +38,17 @@ class ArticleManage(models.Manager):
         date_dict = defaultdict(list)
         for d in date_list:
             date_dict[d.year].append(d.month)
-        return date_dict
+        archive_data = []
+        for year, months in date_dict.items():
+            for month in months:
+                article_list = Article.objects.filter(create_time__year=year, create_time__month=month,
+                                                      states=States.NORMAL)
+                archive_data.append({
+                    'year': year,
+                    'month': month,
+                    'article': article_list
+                })
+        return archive_data
 
 
 class Article(models.Model):
@@ -44,7 +56,8 @@ class Article(models.Model):
 
     title = models.CharField('文章标题', max_length=200, unique=True)
     big_img = models.ForeignKey('Image', verbose_name='文章列表展示大图', on_delete=models.CASCADE, related_name='article_big')
-    small_img = models.ForeignKey('Image', verbose_name='文章列表展示小图', on_delete=models.CASCADE, related_name='article_small')
+    small_img = models.ForeignKey('Image', verbose_name='文章列表展示小图', on_delete=models.CASCADE,
+                                  related_name='article_small')
     author = models.ForeignKey('user.User', verbose_name='文章作者', on_delete=models.CASCADE)
     cate = models.ForeignKey('categroy.Categroy', verbose_name='文章类型', on_delete=models.CASCADE)
     tags = models.ManyToManyField('tag.Tag', verbose_name='文章标签')
