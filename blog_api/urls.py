@@ -19,11 +19,13 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
 
-from article.rest.apis import UploadImg, ImageApiSet
+from article.rest.apis import UploadImg, ImageApiSet, ArchiveList
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'api/img', ImageApiSet, base_name='img')
+router.register(r'api/archive', ArchiveList, base_name='archive')
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),
