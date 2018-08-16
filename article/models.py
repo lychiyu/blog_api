@@ -3,7 +3,6 @@ from collections import defaultdict
 from django.db import models
 
 # Create your models here.
-from rest_framework.utils import json
 
 from blog_api.utils import States, NamedConst
 
@@ -27,6 +26,10 @@ class Image(models.Model):
         db_table = 'image'
         verbose_name = '图片'
         verbose_name_plural = verbose_name
+
+    @property
+    def type_name(self):
+        return self.get_type_display()
 
     def __str__(self):
         return str(self.url)

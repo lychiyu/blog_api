@@ -5,6 +5,7 @@
 """
 import qiniu, hashlib, time
 from django.conf import settings
+from rest_framework.pagination import PageNumberPagination
 
 
 class NamedConst:
@@ -29,7 +30,6 @@ class States(NamedConst):
 
 
 class QiNiuUtil:
-
     def __init__(self, key=settings.QINIU_KEY, secret=settings.QINIU_SECRET,
                  bucket=settings.QINIU_BUCKET, prefix_url=settings.QINIU_URL,
                  path=settings.QINIU_PATH):
@@ -50,3 +50,8 @@ class QiNiuUtil:
         if not ret:
             return None
         return '{}{}'.format(self.prefix_url, ret['key'])
+
+
+class BlogPagination(PageNumberPagination):
+    page_size_query_param = 'limit'
+    max_page_size = 30

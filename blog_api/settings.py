@@ -140,7 +140,8 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'user.User'
 
 REST_FRAMEWORK = {
-    # 'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'blog_api.utils.BlogPagination',
+    'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
