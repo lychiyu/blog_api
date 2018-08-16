@@ -13,7 +13,7 @@ from rest_framework.generics import GenericAPIView
 
 from article.models import Article, Image
 from article.rest.serializers import ArticleListSerializer, ArticleDetailSerializer, UploadSerializer, ImageSerializer, \
-    ArchiveSerializer
+    ArchiveSerializer, ArticleUpdatdeSerializer
 from blog_api.utils import States, QiNiuUtil
 
 
@@ -25,7 +25,9 @@ class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retrieve
     def get_serializer_class(self):
         if self.action == 'list':
             return ArticleListSerializer
-        return ArticleDetailSerializer
+        if self.action == 'retrieve':
+            return ArticleDetailSerializer
+        return ArticleUpdatdeSerializer
 
     def get_queryset(self):
         queryset = Article.objects.filter(states=States.NORMAL, is_about=False)
