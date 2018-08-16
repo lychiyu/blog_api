@@ -1,13 +1,50 @@
+from collections import defaultdict
+
 from django.db import models
 
 # Create your models here.
-from blog_api.utils import States
+from blog_api.utils import States, NamedConst
+
+
+class Image(models.Model):
+    class TYPES(NamedConst):
+        BIG = 1
+        SMALL = 2
+        POST = 3
+        choices = (
+            (BIG, '文章列表大图'),
+            (SMALL, '文章列表小图'),
+            (POST, '文章内容插图'),
+        )
+
+    url = models.CharField('图片地址', max_length=100)
+    type = models.IntegerField('图片所属类型', choices=TYPES.choices, default=TYPES.POST)
+    create_time = models.DateTimeField('创建时间', auto_now_add=True)
+
+    class Meta:
+        db_table = 'image'
+        verbose_name = '图片'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.url)
+
+
+class ArticleManage(models.Manager):
+    def archive(self):
+        date_list = Article.objects.datetimes('create_time', 'month', order='DESC')
+        date_dict = defaultdict(list)
+        for d in date_list:
+            date_dict[d.year].append(d.month)
+        return date_dict
 
 
 class Article(models.Model):
+    objects = ArticleManage()
+
     title = models.CharField('文章标题', max_length=200, unique=True)
-    big_img = models.CharField('文章列表展示大图', max_length=128, null=True, blank=True)
-    small_img = models.CharField('文章列表展示小图', max_length=128, null=True, blank=True)
+    big_img = models.ForeignKey('Image', verbose_name='文章列表展示大图', on_delete=models.CASCADE, related_name='article_big')
+    small_img = models.ForeignKey('Image', verbose_name='文章列表展示小图', on_delete=models.CASCADE, related_name='article_small')
     author = models.ForeignKey('user.User', verbose_name='文章作者', on_delete=models.CASCADE)
     cate = models.ForeignKey('categroy.Categroy', verbose_name='文章类型', on_delete=models.CASCADE)
     tags = models.ManyToManyField('tag.Tag', verbose_name='文章标签')

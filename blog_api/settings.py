@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import datetime
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -37,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 第三方
     'rest_framework',
-    'coreapi',
+    'django_filters',
+    'corsheaders',
     # 自己的app
     'article',
     'user',
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,3 +138,46 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'user.User'
+
+REST_FRAMEWORK = {
+    # 'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'blog_api.permissions.BlogPermission',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    )
+}
+
+# ==============================================================================
+# 跨域配置
+# ==============================================================================
+CORS_ORIGIN_ALLOW_ALL = True  # 允许跨域名访问
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = (
+    '.lychiyu.com',  # 信任所有子域名的csrf
+)
+
+# ==============================================================================
+# JWT 配置
+# ==============================================================================
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_AUTH_HEADER_PREFIX': 'Token',
+}
+
+# ==============================================================================
+# 七牛云配置
+# ==============================================================================
+QINIU_URL = os.getenv('BLOG_QINIU_URL')
+QINIU_BUCKET = os.getenv('BLOG_QINIU_BUCKET')
+QINIU_KEY = os.getenv('BLOG_QINIU_KEY')
+QINIU_SECRET = os.getenv('BLOG_QINIU_SECRET')
+QINIU_PATH = 'blog'
