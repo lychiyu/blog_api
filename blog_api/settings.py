@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'coreapi',
+    # 自己的app
+    'article',
+    'user',
+    'categroy',
+    'tag',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +131,5 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'user.User'
