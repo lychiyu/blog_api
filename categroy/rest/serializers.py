@@ -13,3 +13,4 @@ class CategroySerializer(serializers.ModelSerializer):
     class Meta:
         model = Categroy
         fields = '__all__'
+        read_only_fields = ('id', 'states')

@@ -12,16 +12,23 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.generics import GenericAPIView
 
 from article.models import Article, Image
-from article.rest.serializers import ArticleSerializer, UploadSerializer, ImageSerializer, ArchiveSerializer
+from article.rest.serializers import ArticleListSerializer, ArticleDetailSerializer, UploadSerializer, ImageSerializer, \
+    ArchiveSerializer
 from blog_api.utils import States, QiNiuUtil
 
 
 class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin,
                     GenericViewSet):
-    serializer_class = ArticleSerializer
+
+    filter_fields = ('is_about', )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ArticleListSerializer
+        return ArticleDetailSerializer
 
     def get_queryset(self):
-        queryset = Article.objects.filter(states=States.NORMAL)
+        queryset = Article.objects.filter(states=States.NORMAL, is_about=False)
         if self.request.user.is_authenticated:
             queryset = Article.objects.all()
         return queryset
