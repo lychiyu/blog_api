@@ -34,7 +34,7 @@ class Image(models.Model):
 
 class ArticleManage(models.Manager):
     def archive(self):
-        date_list = Article.objects.datetimes('create_time', 'month', order='DESC')
+        date_list = Article.objects.exclude(is_about=True).datetimes('create_time', 'month', order='DESC')
         date_dict = defaultdict(list)
         for d in date_list:
             date_dict[d.year].append(d.month)

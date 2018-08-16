@@ -13,3 +13,5 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
+        read_only_fields = ('id', 'states')
+
