@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'raven.contrib.django.raven_compat',
     # 自己的app
     'article',
     'user',
@@ -182,3 +183,11 @@ QINIU_BUCKET = os.getenv('BLOG_QINIU_BUCKET')
 QINIU_KEY = os.getenv('BLOG_QINIU_KEY')
 QINIU_SECRET = os.getenv('BLOG_QINIU_SECRET')
 QINIU_PATH = 'blog'
+
+# ==============================================================================
+# sentry配置
+# ==============================================================================
+
+RAVEN_CONFIG = {
+    'dsn': os.getenv('SENTRY_BLOG_DNS'),
+}
