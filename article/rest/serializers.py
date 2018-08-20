@@ -26,7 +26,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'tags', 'cate', 'author',
+        fields = ('id', 'title', 'summary', 'tags', 'cate', 'author',
                   'author_name', 'big_pic', 'small_pic')
 
 
@@ -39,9 +39,10 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'tags', 'cate', 'author', 'author_name',
-                  'md_content', 'html_content', 'states', 'create_time',
-                  'update_time', 'is_about', 'big_img', 'small_img')
+        fields = ('id', 'title', 'summary', 'tags', 'cate', 'author',
+                  'author_name', 'md_content', 'html_content', 'states',
+                  'create_time', 'update_time', 'is_about', 'big_img',
+                  'small_img')
         read_only_fields = ('id', 'states', 'author_name')
 
 

@@ -58,6 +58,7 @@ class Article(models.Model):
     objects = ArticleManage()
 
     title = models.CharField('文章标题', max_length=200, unique=True)
+    summary = models.CharField('文章摘要', max_length=300, default='')
     big_img = models.ForeignKey('Image', verbose_name='文章列表展示大图', on_delete=models.CASCADE, related_name='article_big')
     small_img = models.ForeignKey('Image', verbose_name='文章列表展示小图', on_delete=models.CASCADE,
                                   related_name='article_small')
