@@ -26,5 +26,5 @@ class CategroyApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retriev
         return queryset
 
     def perform_destroy(self, instance):
-        instance.states = States.DELETE
+        instance.states = States.DELETE if instance.states == States.NORMAL else States.NORMAL
         instance.save()
