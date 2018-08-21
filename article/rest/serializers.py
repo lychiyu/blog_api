@@ -54,7 +54,12 @@ class ArticleUpdatdeSerializer(serializers.ModelSerializer):
                   'md_content', 'html_content', 'states',
                   'create_time', 'update_time', 'is_about', 'big_img',
                   'small_img')
-        read_only_fields = ('id', 'states')
+        read_only_fields = ('id', 'states', 'author')
+
+    def create(self, validated_data):
+        author = self.request.user
+        validated_data['author'] = author
+        return Article.objects.create(**validated_data)
 
 
 class UploadSerializer(serializers.ModelSerializer):
