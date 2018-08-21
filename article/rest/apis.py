@@ -39,6 +39,10 @@ class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retrieve
         instance.states = States.DELETE if instance.states == States.NORMAL else States.NORMAL
         instance.save()
 
+    def perform_create(self, serializer):
+        serializer.validated_data['author'] = self.request.user
+        serializer.save()
+
 
 class UploadImg(GenericAPIView):
     """

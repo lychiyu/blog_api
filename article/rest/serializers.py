@@ -56,11 +56,6 @@ class ArticleUpdatdeSerializer(serializers.ModelSerializer):
                   'small_img')
         read_only_fields = ('id', 'states', 'author')
 
-    def create(self, validated_data):
-        author = self.request.user
-        validated_data['author'] = author
-        return Article.objects.create(**validated_data)
-
 
 class UploadSerializer(serializers.ModelSerializer):
     file = serializers.FileField()
