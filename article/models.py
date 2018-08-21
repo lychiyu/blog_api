@@ -19,6 +19,7 @@ class Image(models.Model):
         )
 
     url = models.CharField('图片地址', max_length=100)
+    desc = models.CharField('图片描述', max_length=50, default='')
     type = models.IntegerField('图片所属类型', choices=TYPES.choices, default=TYPES.POST)
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
 

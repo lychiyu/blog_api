@@ -61,6 +61,7 @@ class ImageApiSet(ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericV
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
     filter_fields = ('type',)
+    search_fields = ('desc', )
 
 
 class ArchiveList(ListModelMixin, GenericViewSet):
