@@ -13,7 +13,7 @@ from tag.rest.serializers import TagSerializer
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'type', 'type_name', 'url')
+        fields = ('id', 'type', 'type_name', 'desc', 'url')
         read_only_fields = ('id', 'url', 'type_name')
 
 
@@ -47,12 +47,14 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
 
 class ArticleUpdatdeSerializer(serializers.ModelSerializer):
-    author_name = serializers.CharField(source='author.username')
 
     class Meta:
         model = Article
-        fields = "__all__"
-        read_only_fields = ('id', 'states', 'author_name')
+        fields = ('id', 'title', 'summary', 'tags', 'cate', 'author',
+                  'md_content', 'html_content', 'states',
+                  'create_time', 'update_time', 'is_about', 'big_img',
+                  'small_img')
+        read_only_fields = ('id', 'states', 'author')
 
 
 class UploadSerializer(serializers.ModelSerializer):
@@ -60,7 +62,7 @@ class UploadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = ('id', 'type', 'file')
+        fields = ('id', 'type', 'desc', 'file')
 
 
 class ArchiveSerializer(serializers.Serializer):

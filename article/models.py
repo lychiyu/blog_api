@@ -19,6 +19,7 @@ class Image(models.Model):
         )
 
     url = models.CharField('图片地址', max_length=100)
+    desc = models.CharField('图片描述', max_length=50, default='')
     type = models.IntegerField('图片所属类型', choices=TYPES.choices, default=TYPES.POST)
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
 
@@ -65,8 +66,8 @@ class Article(models.Model):
     author = models.ForeignKey('user.User', verbose_name='文章作者', on_delete=models.CASCADE)
     cate = models.ForeignKey('categroy.Categroy', verbose_name='文章类型', on_delete=models.CASCADE)
     tags = models.ManyToManyField('tag.Tag', verbose_name='文章标签')
-    md_content = models.TextField('文章markdown原始内容')
-    html_content = models.TextField('文章html渲染内容')
+    md_content = models.TextField('文章markdown原始内容', default='')
+    html_content = models.TextField('文章html渲染内容', default='')
     states = models.IntegerField('状态', choices=States.choices, default=States.NORMAL)
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
     update_time = models.DateTimeField('更新时间', auto_now=True, null=True)
