@@ -47,12 +47,14 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
 
 class ArticleUpdatdeSerializer(serializers.ModelSerializer):
-    author_name = serializers.CharField(source='author.username')
 
     class Meta:
         model = Article
-        fields = "__all__"
-        read_only_fields = ('id', 'states', 'author_name')
+        fields = ('id', 'title', 'summary', 'tags', 'cate', 'author',
+                  'md_content', 'html_content', 'states',
+                  'create_time', 'update_time', 'is_about', 'big_img',
+                  'small_img')
+        read_only_fields = ('id', 'states')
 
 
 class UploadSerializer(serializers.ModelSerializer):
