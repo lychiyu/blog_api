@@ -2,6 +2,7 @@ from django.db import models
 
 
 # Create your models here.
+from article.models import Article
 from blog_api.utils import States
 
 
@@ -19,6 +20,10 @@ class Tag(models.Model):
         db_table = 'tag'
         verbose_name = '文章标签'
         verbose_name_plural = verbose_name
+
+    @property
+    def amount(self):
+        return self.article_set.filter(is_about=False, states=States.NORMAL).count()
 
     def __str__(self):
         return self.name

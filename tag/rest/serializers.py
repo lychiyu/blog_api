@@ -12,6 +12,6 @@ from tag.models import Tag
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
-        read_only_fields = ('id', 'states')
+        fields = ('id', 'states', 'amount', 'name', 'create_time', 'update_time')
+        read_only_fields = ('id', 'states', 'amount')
 
