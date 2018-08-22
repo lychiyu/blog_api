@@ -38,3 +38,4 @@ urlpatterns = [
     path('api/login/', obtain_jwt_token),
     path('api/upload/', UploadImg.as_view()),
 ]
+urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
