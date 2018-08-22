@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'silk',
     'raven.contrib.django.raven_compat',
     # 自己的app
     'article',
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'silk.middleware.SilkyMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -191,3 +193,10 @@ QINIU_PATH = 'blog'
 RAVEN_CONFIG = {
     'dsn': os.getenv('SENTRY_BLOG_DNS'),
 }
+
+# ==============================================================================
+# silky配置
+# ==============================================================================
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+SILKY_PYTHON_PROFILER = True
