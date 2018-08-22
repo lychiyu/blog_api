@@ -17,6 +17,7 @@ from article.rest.serializers import ArticleListSerializer, ArticleDetailSeriali
     ArchiveSerializer, ArticleUpdatdeSerializer
 from blog_api.utils import States, QiNiuUtil
 from categroy.models import Categroy
+from tag.models import Tag
 
 
 class ArticleFilter(filters.FilterSet):
@@ -54,14 +55,19 @@ class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retrieve
         serializer.save()
 
     def list(self, request, *args, **kwargs):
-        if request.query_params.get('group'):
-            cates = list(Article.objects.filter(is_about=False).
-                         annotate(count=Count('cate')).
-                         values_list('cate', flat=True).distinct())
+        group = request.query_params.get('group')
+        if group:
+            groups = list(Article.objects.filter(is_about=False).
+                             annotate(count=Count(group)).
+                             values_list(group, flat=True).distinct())
             data = []
-            for i in cates:
-                cate = Categroy.objects.get(pk=i)
-                posts = Article.objects.filter(is_about=False, cate=cate)
+            id = request.query_params.get('id')
+            if id:
+                obj = Categroy.objects.get(pk=id)
+                posts = Article.objects.filter(is_about=False, cate=id)
+                if group == 'tags':
+                    obj = Tag.objects.get(pk=id)
+                    posts = Article.objects.filter(is_about=False, tags__in=id)
                 post_list = []
                 for post in posts:
                     post_info = {
@@ -72,8 +78,29 @@ class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retrieve
                     }
                     post_list.append(post_info)
                 data.append({
-                    'id': cate.id,
-                    'cate': cate.name,
+                    'id': obj.id,
+                    'name': obj.name,
+                    'posts': post_list
+                })
+                return Response(data)
+            for i in groups:
+                obj = Categroy.objects.get(pk=i)
+                posts = Article.objects.filter(is_about=False, cate=i)
+                if group == 'tags':
+                    obj = Tag.objects.get(pk=i)
+                    posts = Article.objects.filter(is_about=False, tags__in=(i, ))
+                post_list = []
+                for post in posts:
+                    post_info = {
+                        'id': post.id,
+                        'title': post.title,
+                        'create_time': post.create_time,
+                        'small_img': post.small_img.url,
+                    }
+                    post_list.append(post_info)
+                data.append({
+                    'id': obj.id,
+                    'name': obj.name,
                     'posts': post_list
                 })
             return Response(data)
