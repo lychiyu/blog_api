@@ -96,6 +96,7 @@ DATABASES = {
         'PASSWORD': os.getenv('BLOG_DB_PASSWORD'),
         'NAME': os.getenv('BLOG_DB_NAME'),
         'OPTIONS': {
+            'charset': 'utf8mb4',
             'init_command': 'SET default_storage_engine=INNODB;'
         },
     }
