@@ -67,6 +67,5 @@ class UploadSerializer(serializers.ModelSerializer):
 
 
 class ArchiveSerializer(serializers.Serializer):
-    year = serializers.CharField()
-    month = serializers.CharField()
+    date = serializers.CharField()
     article = ArticleListSerializer(many=True)
