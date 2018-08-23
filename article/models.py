@@ -48,8 +48,7 @@ class ArticleManage(models.Manager):
                 article_list = Article.objects.filter(create_time__year=year, create_time__month=month,
                                                       states=States.NORMAL)
                 archive_data.append({
-                    'year': year,
-                    'month': month,
+                    'date': '{}-{}'.format(year, month),
                     'article': article_list
                 })
         return archive_data
