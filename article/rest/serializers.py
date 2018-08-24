@@ -28,7 +28,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
         model = Article
         fields = ('id', 'title', 'summary', 'tags', 'cate', 'author',
                   'author_name', 'big_pic', 'small_pic', 'create_time',
-                  'update_time')
+                  'update_time', 'is_about')
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
