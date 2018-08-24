@@ -32,6 +32,7 @@ class ArticleFilter(filters.FilterSet):
 class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin,
                     GenericViewSet):
     filter_class = ArticleFilter
+    search_fields = ('html_content', 'cate__name')
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -41,7 +42,7 @@ class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retrieve
         return ArticleUpdatdeSerializer
 
     def get_queryset(self):
-        queryset = Article.objects.filter(states=States.NORMAL, is_about=False).order_by('-create_time')
+        queryset = Article.objects.filter(states=States.NORMAL).order_by('-create_time')
         if self.request.user.is_authenticated:
             queryset = Article.objects.all().order_by('-create_time')
         return queryset
