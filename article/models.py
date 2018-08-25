@@ -36,26 +36,7 @@ class Image(models.Model):
         return str(self.url)
 
 
-# class ArticleManage(models.Manager):
-#     def archive(self):
-#         date_list = Article.objects.exclude(is_about=True).datetimes('create_time', 'month', order='DESC')
-#         date_dict = defaultdict(list)
-#         for d in date_list:
-#             date_dict[d.year].append(d.month)
-#         archive_data = []
-#         for year, months in date_dict.items():
-#             for month in months:
-#                 article_list = Article.objects.filter(create_time__year=year, create_time__month=month,
-#                                                       states=States.NORMAL)
-#                 archive_data.append({
-#                     'date': '{}-{}'.format(year, month),
-#                     'article': article_list
-#                 })
-#         return archive_data
-
-
 class Article(models.Model):
-    # objects = ArticleManage()
 
     title = models.CharField('文章标题', max_length=200, unique=True)
     summary = models.CharField('文章摘要', max_length=300, default='')
