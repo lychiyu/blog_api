@@ -56,7 +56,7 @@ docs/_build/
 
 # PyBuilder
 target/
-
+.qiniu_pythonsdk_hostscache.json
 .idea/
 
 static/
