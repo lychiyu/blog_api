@@ -3,7 +3,9 @@
 """
  Created by liuying on 2018/8/16.
 """
-from django.db.models import Value, Count
+from collections import defaultdict
+
+from django.db.models import Count
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, \
     ListModelMixin
 from rest_framework.response import Response
@@ -141,4 +143,20 @@ class ImageApiSet(ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericV
 
 class ArchiveList(ListModelMixin, GenericViewSet):
     serializer_class = ArchiveSerializer
-    queryset = Article.objects.archive()
+    # queryset = Article.objects.archive()
+
+    def get_queryset(self):
+        date_list = Article.objects.exclude(is_about=True).datetimes('create_time', 'month', order='DESC')
+        date_dict = defaultdict(list)
+        for d in date_list:
+            date_dict[d.year].append(d.month)
+        archive_data = []
+        for year, months in date_dict.items():
+            for month in months:
+                article_list = Article.objects.filter(create_time__year=year, create_time__month=month,
+                                                      states=States.NORMAL)
+                archive_data.append({
+                    'date': '{}-{}'.format(year, month),
+                    'article': article_list
+                })
+        return archive_data

@@ -50,14 +50,13 @@ coverage.xml
 
 # Django stuff:
 *.log
-manage.py
 
 # Sphinx documentation
 docs/_build/
 
 # PyBuilder
 target/
-
+.qiniu_pythonsdk_hostscache.json
 .idea/
 
 static/
