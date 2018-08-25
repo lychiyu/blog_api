@@ -58,5 +58,3 @@ docs/_build/
 target/
 .qiniu_pythonsdk_hostscache.json
 .idea/
-
-static/
