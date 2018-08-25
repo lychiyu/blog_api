@@ -66,8 +66,9 @@ class ArticleApiSet(ListModelMixin, CreateModelMixin, UpdateModelMixin, Retrieve
             data = []
             id = request.query_params.get('id')
             if id:
-                obj = Categroy.objects.get(pk=id)
-                posts = Article.objects.filter(is_about=False, cate=id)
+                if group == 'cate':
+                    obj = Categroy.objects.get(pk=id)
+                    posts = Article.objects.filter(is_about=False, cate=id)
                 if group == 'tags':
                     obj = Tag.objects.get(pk=id)
                     posts = Article.objects.filter(is_about=False, tags__in=id)
